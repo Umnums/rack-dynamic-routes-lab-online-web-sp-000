@@ -4,7 +4,13 @@ class Application
     req = Rack::Request.new(env)
 
     if req.path.match(/items/)
-      search = req.params
+      search = req.path.split("items/").last
+      if @@items.include?(search)
+        resp.write "#{search.price}"
+      else
+        resp.write "Item not found"
+      end
+        
     else
       resp.write "Route not found"
       resp.status = 404
